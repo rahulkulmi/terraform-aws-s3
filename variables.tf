@@ -14,6 +14,17 @@ variable "app_name" {
   type        = string
 }
 
+variable "app_version" {
+  description = "Version of the application"
+  type        = string
+  default     = "Working on it"
+}
+
+variable "repo" {
+  description = "Application repo name"
+  type        = string
+}
+
 variable "stage" {
   type        = string
   description = "SDLC stage (e.g. dev, qa etc)"

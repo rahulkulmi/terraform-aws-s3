@@ -3,7 +3,7 @@ locals {
   bucket_domain_name = aws_s3_bucket.website.bucket_domain_name
 
   tags = merge({
-    # repo        = var.repo
+    repo        = var.repo
     project     = var.project
     app_name    = var.app_name
     app_version = var.app_version

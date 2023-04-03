@@ -10,5 +10,5 @@ output "bucket" {
 
 output "cloudfront_distribution_id" {
   description = "CloudFront distrubution id"
-  value       = aws_cloudfront_distribution.this.id
+  value       = aws_cloudfront_distribution.s3_distribution.id
 }
