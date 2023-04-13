@@ -97,6 +97,8 @@ resource "null_resource" "invalidate_cf_cache" {
   }
 
   triggers = {
-    website_version_changed = data.aws_s3_bucket.website.version_id # aws_s3_bucket.website.version_id
+    website_version_changed = aws_s3_bucket.website.version_id
   }
+
+  depends_on = [aws_s3_bucket_versioning.website_versioning]
 }

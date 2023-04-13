@@ -20,9 +20,9 @@ data "aws_iam_policy_document" "this" {
   }
 }
 
-data "aws_s3_bucket" "website_bucket" {
-  bucket = var.bucket_name
-}
+# data "aws_s3_bucket" "website_bucket" {
+#   bucket = var.bucket_name
+# }
 
 /*
 data "aws_acm_certificate" "ssl_cert" {
