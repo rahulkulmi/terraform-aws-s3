@@ -90,7 +90,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
   tags = var.tags
 }
-
+/*
 resource "null_resource" "invalidate_cf_cache" {
   provisioner "local-exec" {
     command = "aws cloudfront create-invalidation --distribution-id ${aws_cloudfront_distribution.s3_distribution.id} --paths '/*'"
@@ -102,3 +102,4 @@ resource "null_resource" "invalidate_cf_cache" {
 
   depends_on = [aws_s3_bucket_versioning.website_versioning]
 }
+*/
