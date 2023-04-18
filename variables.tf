@@ -72,6 +72,11 @@ variable "domain_name" {
   description = "The domain name for the website."
 }
 
+variable "record_name" {
+  type        = string
+  description = "Name of the Route 53 record"
+}
+
 variable "hosted_zone_id" {
   description = "the route 53 zone id where the alias should be created"
   type        = string
