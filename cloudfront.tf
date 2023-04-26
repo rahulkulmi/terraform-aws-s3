@@ -24,19 +24,6 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     }
   }
 
-  # domain_name = replace(aws_api_gateway_deployment.deployment.invoke_url, "/^https?://([^/]*).*/", "$1")
-  /*origin {
-    domain_name = var.record_name
-    origin_id   = "${var.app_name}-${var.stage}-server-url"
-
-    custom_origin_config {
-      http_port              = 80
-      https_port             = 443
-      origin_protocol_policy = "https-only"
-      origin_ssl_protocols   = ["TLSv1.2"]
-    }
-  }*/
-
   aliases = ["${var.domain_name}"] # var.domain_names
 
   price_class         = "PriceClass_100" # US/EU  edge locations only
@@ -46,7 +33,6 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   default_root_object = "index.html"
   # web_acl_id          = var.web_acl_id
 
-  /*
   dynamic "custom_error_response" {
     for_each = var.custom_error_response
 
@@ -58,7 +44,6 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
       error_caching_min_ttl = lookup(custom_error_response.value, "error_caching_min_ttl", null)
     }
   }
-  */
 
   default_cache_behavior {
     allowed_methods        = ["GET", "HEAD"] # "DELETE", "OPTIONS", "PATCH", "POST", "PUT"
@@ -88,7 +73,59 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     */
   }
 
-  /*ordered_cache_behavior {
+  # domain_name = replace(aws_api_gateway_deployment.deployment.invoke_url, "/^https?://([^/]*).*/", "$1")
+  /*
+  dynamic "origin" {
+    for_each = var.custom_origins
+    iterator = it
+      content {
+        domain_name = it.value.domain_name
+        origin_id = it.value.origin_id
+
+        custom_origin_config {
+          http_port              = 80
+          https_port             = 443
+          origin_protocol_policy = "https-only"
+          origin_ssl_protocols   = ["TLSv1.2"]
+        }
+    }
+  }
+
+  dynamic "ordered_cache_behavior" {
+    for_each = var.custom_origins
+    content {
+      path_pattern           = ordered_cache_behavior.value.path_pattern
+      allowed_methods        = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+      cached_methods         = ["GET", "HEAD"]
+      target_origin_id       = ordered_cache_behavior.value.origin_id
+      viewer_protocol_policy = "redirect-to-https"
+      default_ttl            = 0
+      min_ttl                = 0
+      max_ttl                = 0
+
+      forwarded_values {
+        headers      = var.forwarded_headers
+        query_string = var.forwarded_query_string
+        cookies {
+          forward = var.forwarded_cookies
+        }
+      }
+    }
+  }
+
+  origin {
+    domain_name = var.record_name
+    origin_id   = "${var.app_name}-${var.stage}-server-url"
+
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "https-only"
+      origin_ssl_protocols   = ["TLSv1.2"]
+    }
+  }
+
+  ordered_cache_behavior {
     path_pattern           = "/api/*"
     allowed_methods        = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods         = ["GET", "HEAD"]
@@ -106,18 +143,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
       }
     }
   }
-
-  dynamic "custom_error_response" {
-    for_each = var.custom_error_response
-
-    content {
-      error_code = custom_error_response.value["error_code"]
-
-      response_code         = lookup(custom_error_response.value, "response_code", null)
-      response_page_path    = lookup(custom_error_response.value, "response_page_path", null)
-      error_caching_min_ttl = lookup(custom_error_response.value, "error_caching_min_ttl", null)
-    }
-  }*/
+*/
 
   restrictions {
     geo_restriction {

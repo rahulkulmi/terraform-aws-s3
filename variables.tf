@@ -77,6 +77,16 @@ variable "record_name" {
   description = "Name of the Route 53 record"
 }
 
+variable "custom_origins" {
+  type = list(object({
+    domain_name  = string
+    origin_id    = string
+    path_pattern = string
+  }))
+  default     = []
+  description = "One or more custom origins for this distribution (multiples allowed)"
+}
+
 variable "hosted_zone_id" {
   description = "the route 53 zone id where the alias should be created"
   type        = string
